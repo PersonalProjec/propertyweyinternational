@@ -7,6 +7,7 @@ import {
   FiLock,
   FiLogOut,
   FiX,
+  FiCalendar,
 } from 'react-icons/fi';
 import { useState } from 'react';
 
@@ -14,6 +15,7 @@ const links = [
   { name: 'Dashboard', path: '/admin', icon: <FiHome /> },
   { name: 'Upload Property', path: '/admin/upload', icon: <FiUpload /> },
   { name: 'Manage Properties', path: '/admin/manage', icon: <FiEdit /> },
+    { name: 'Bookings', path: '/admin/bookings', icon: <FiCalendar /> }, 
   { name: 'Profile', path: '/admin/profile', icon: <FiUser /> },
   { name: 'Change Password', path: '/admin/password', icon: <FiLock /> },
 ];

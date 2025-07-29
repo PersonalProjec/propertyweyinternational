@@ -41,10 +41,10 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-black-200">
           Welcome, Admin 🎉
         </h1>
-        <p className="text-gray-600 dark:text-gray-300">
+        <p className="text-gray-600 dark:text-blakc-200">
           Here's a quick overview of your platform activity.
         </p>
       </div>

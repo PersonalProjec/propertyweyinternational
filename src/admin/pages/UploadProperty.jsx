@@ -169,6 +169,7 @@ const UploadProperty = () => {
         >
           <option value="Rent">Rent</option>
           <option value="Sale">Sale</option>
+          <option value="Sale">Shortlet</option>
         </select>
 
         <input

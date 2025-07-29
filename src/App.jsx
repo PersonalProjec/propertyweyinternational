@@ -19,6 +19,7 @@ import Profile from './admin/pages/Profile';
 import ChangePassword from './admin/pages/ChangePassword';
 import AdminRoute from './admin/AdminRoute';
 import NotFound from './admin/pages/NotFound';
+import Bookings from './admin/pages/Bookings';
 
 export default function App() {
   const location = useLocation();
@@ -53,6 +54,7 @@ export default function App() {
             <Route path="upload" element={<UploadProperty />} />
             <Route path="manage" element={<ManageProperties />} />
             <Route path="edit/:id" element={<EditProperty />} />
+            <Route path="bookings" element={<Bookings />} />
             <Route path="profile" element={<Profile />} />
             <Route path="password" element={<ChangePassword />} />
           </Route>

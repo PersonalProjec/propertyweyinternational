@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/icon.png';
+import { Link } from 'react-router-dom';
 
 const navLinks = [
   { name: 'Home', path: 'hero' },
@@ -81,11 +82,7 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
           {/* Logo */}
-          <a
-            href="#hero"
-            className="flex items-center space-x-2 group"
-            onClick={() => scrollTo('hero')}
-          >
+          <Link to="/" className="flex items-center space-x-2 group">
             <motion.img
               src={logo}
               alt="Property Wey Logo"
@@ -97,7 +94,7 @@ export default function Navbar() {
             <span className="text-xl font-bold text-gold tracking-tight group-hover:text-primary transition">
               Property Wey
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex space-x-6 relative">

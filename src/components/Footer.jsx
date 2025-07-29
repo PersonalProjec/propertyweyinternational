@@ -1,8 +1,25 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaFacebook, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 export default function Footer() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  function handleQuickLink(e, sectionId) {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      // Navigate to home, then scroll after route change
+      navigate(`/#${sectionId}`);
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 300); // Delay to allow route to change
+    } else {
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
   return (
     <motion.footer
       initial={{ opacity: 0, y: 40 }}
@@ -37,24 +54,40 @@ export default function Footer() {
           <h3 className="font-semibold mb-2 text-lg">Quick Links</h3>
           <ul className="space-y-2 text-gray-300 text-sm">
             <li>
-              <Link to="/services" className="hover:text-gold transition">
+              <a
+                href="#services"
+                className="hover:text-gold transition"
+                onClick={(e) => handleQuickLink(e, 'services')}
+              >
                 Services
-              </Link>
+              </a>
             </li>
             <li>
-              <Link to="/properties" className="hover:text-gold transition">
+              <a
+                href="#properties"
+                className="hover:text-gold transition"
+                onClick={(e) => handleQuickLink(e, 'properties')}
+              >
                 Properties
-              </Link>
+              </a>
             </li>
             <li>
-              <Link to="/about" className="hover:text-gold transition">
+              <a
+                href="#about"
+                className="hover:text-gold transition"
+                onClick={(e) => handleQuickLink(e, 'about')}
+              >
                 About Us
-              </Link>
+              </a>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-gold transition">
+              <a
+                href="#contact"
+                className="hover:text-gold transition"
+                onClick={(e) => handleQuickLink(e, 'contact')}
+              >
                 Contact
-              </Link>
+              </a>
             </li>
           </ul>
         </motion.div>

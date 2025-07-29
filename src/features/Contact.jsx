@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
-import axios from 'axios';
+import emailjs from 'emailjs-com';
 import { motion } from 'framer-motion';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Button from '../components/Button';
@@ -9,6 +9,9 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const API = import.meta.env.VITE_API_BASE_URL;
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 export default function Contact() {
   const recaptchaRef = useRef();
@@ -24,17 +27,27 @@ export default function Contact() {
       const token = await recaptchaRef.current.executeAsync();
       recaptchaRef.current.reset();
 
-      const res = await axios.post(`${API}/contact`, {
-        ...data,
-        recaptchaToken: token,
-      });
+      // Include the token in your template params if you want to verify it in EmailJS or in backend
+      const templateParams = {
+        from_name: data.name,
+        reply_to: data.email,
+        message: data.message,
+        recaptcha_token: token,
+      };
 
-      toast.success(res.data.message || 'Message sent successfully!');
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      toast.success('Message sent successfully!');
       reset();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      console.error(err.response?.data || err);
-      toast.error(err?.response?.data?.message || 'Something went wrong.');
+      console.error(err);
+      toast.error('Something went wrong. Please try again.');
     }
   };
 
