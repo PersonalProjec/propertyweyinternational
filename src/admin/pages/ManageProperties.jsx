@@ -61,7 +61,7 @@ const modalSliderSettings = {
 
 const ManageProperties = () => {
   const [properties, setProperties] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(1);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(20);
   const [search, setSearch] = useState('');
@@ -460,14 +460,19 @@ const ManageProperties = () => {
                 </div>
                 {/* Inline editing for all fields except images */}
                 {Object.entries(selected).map(([key, value]) => {
+                  // Hide technical/irrelevant fields
                   if (
                     key === '_id' ||
                     key === 'images' ||
                     key === 'createdAt' ||
                     key === 'updatedAt' ||
-                    key === '__v'
+                    key === '__v' ||
+                    key === 'views' ||
+                    key === 'viewedAt'
                   )
                     return null;
+
+                  // Boolean selects
                   if (key === 'featured' || key === 'approved') {
                     return (
                       <div key={key} className="mb-2">
@@ -488,6 +493,8 @@ const ManageProperties = () => {
                       </div>
                     );
                   }
+
+                  // Status select
                   if (key === 'status') {
                     return (
                       <div key={key} className="mb-2">
@@ -509,6 +516,33 @@ const ManageProperties = () => {
                       </div>
                     );
                   }
+
+                  // Currency select (professional!)
+                  if (key === 'currency') {
+                    return (
+                      <div key={key} className="mb-2">
+                        <label className="block capitalize mb-1">{key}</label>
+                        <select
+                          className="border rounded p-2 w-full"
+                          value={value || 'NGN'}
+                          onChange={(e) =>
+                            setSelected((prev) => ({
+                              ...prev,
+                              [key]: e.target.value,
+                            }))
+                          }
+                        >
+                          <option value="NGN">Naira (₦)</option>
+                          <option value="USD">US Dollar ($)</option>
+                          <option value="EUR">Euro (€)</option>
+                          <option value="GBP">British Pound (£)</option>
+                          <option value="CAD">Canadian Dollar (C$)</option>
+                        </select>
+                      </div>
+                    );
+                  }
+
+                  // Everything else (default input)
                   return (
                     <div key={key} className="mb-2">
                       <label className="block capitalize mb-1">{key}</label>
@@ -563,20 +597,55 @@ const ManageProperties = () => {
                   </span>
                 </div>
                 <div className="space-y-2">
-                  {Object.entries(selected).map(([key, value]) =>
-                    key === 'images' ||
-                    key === '_id' ||
-                    key === '__v' ||
-                    key === 'createdAt' ||
-                    key === 'updatedAt' ? null : (
+                  {Object.entries(selected).map(([key, value]) => {
+                    // Hide technical/irrelevant fields
+                    if (
+                      key === 'images' ||
+                      key === '_id' ||
+                      key === '__v' ||
+                      key === 'createdAt' ||
+                      key === 'updatedAt' ||
+                      key === 'views' ||
+                      key === 'viewedAt'
+                    )
+                      return null;
+
+                    // Show price with currency
+                    if (key === 'price') {
+                      const currency = selected.currency || 'NGN';
+                      const currencySymbol =
+                        currency === 'NGN'
+                          ? '₦'
+                          : currency === 'USD'
+                          ? '$'
+                          : currency === 'EUR'
+                          ? '€'
+                          : currency === 'GBP'
+                          ? '£'
+                          : currency === 'CAD'
+                          ? 'C$'
+                          : '';
+                      return (
+                        <div key={key} className="text-gray-700">
+                          <span className="font-semibold">Price: </span>
+                          {currencySymbol}
+                          {value}
+                        </div>
+                      );
+                    }
+
+                    // Show all other fields
+                    return (
                       <div key={key} className="text-gray-700">
-                        <span className="font-semibold">{key}: </span>
+                        <span className="font-semibold">
+                          {key.charAt(0).toUpperCase() + key.slice(1)}:{' '}
+                        </span>
                         {Array.isArray(value)
                           ? value.join(', ')
                           : String(value)}
                       </div>
-                    )
-                  )}
+                    );
+                  })}
                 </div>
               </>
             )}

@@ -101,7 +101,7 @@ export default function Footer() {
           <h3 className="font-semibold mb-2 text-lg">Connect With Us</h3>
           <div className="flex space-x-5 text-2xl mt-3">
             <motion.a
-              href="https://wa.me/234XXXXXXXXXX"
+              href="https://wa.me/2349047007000"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.2 }}

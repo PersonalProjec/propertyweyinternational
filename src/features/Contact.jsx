@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
-import emailjs from 'emailjs-com';
+import axios from 'axios';
 import { motion } from 'framer-motion';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Button from '../components/Button';
@@ -9,9 +9,6 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const API = import.meta.env.VITE_API_BASE_URL;
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 export default function Contact() {
   const recaptchaRef = useRef();
@@ -22,32 +19,27 @@ export default function Contact() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, e) => {
     try {
+      if (e && e.preventDefault) e.preventDefault();
+      const toastId = toast.loading('Sending message...');
+
       const token = await recaptchaRef.current.executeAsync();
       recaptchaRef.current.reset();
-
-      // Include the token in your template params if you want to verify it in EmailJS or in backend
-      const templateParams = {
-        from_name: data.name,
-        reply_to: data.email,
-        message: data.message,
-        recaptcha_token: token,
-      };
-
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
-      );
-
-      toast.success('Message sent successfully!');
+      const res = await axios.post(`${API}/contact`, {
+        ...data,
+        recaptchaToken: token,
+      });
+      toast.dismiss(toastId);
+      toast.success(res.data.message || 'Message sent successfully!');
       reset();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
+      toast.dismiss();
       console.error(err);
-      toast.error('Something went wrong. Please try again.');
+      toast.error(
+        err.response?.data?.message || 'Something went wrong. Please try again.'
+      );
     }
   };
 
@@ -89,7 +81,7 @@ export default function Contact() {
             </li>
             <li className="flex items-start gap-4 group hover:scale-105 transition-transform">
               <FaPhone className="text-gold text-xl mt-1 group-hover:animate-pulse" />
-              <span>+234 903 190 4643</span>
+              <span>+234 904 700 7000</span>
             </li>
             <li className="flex items-start gap-4 group hover:scale-105 transition-transform">
               <FaEnvelope className="text-gold text-xl mt-1 group-hover:animate-bounce" />

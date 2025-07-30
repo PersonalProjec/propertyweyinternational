@@ -3,18 +3,13 @@ import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import BackToTopButton from './components/BacktoTop';
-
-// Public Pages
 import Home from './features/Home';
 import PropertyDetails from './pages/PropertyDetails';
-
-// Admin Pages
 import AdminLayout from './admin/AdminLayout';
 import Login from './admin/pages/Login';
 import Dashboard from './admin/pages/Dashboard';
 import UploadProperty from './admin/pages/UploadProperty';
 import ManageProperties from './admin/pages/ManageProperties';
-import EditProperty from './admin/pages/EditProperty';
 import Profile from './admin/pages/Profile';
 import ChangePassword from './admin/pages/ChangePassword';
 import AdminRoute from './admin/AdminRoute';
@@ -53,7 +48,6 @@ export default function App() {
             <Route index element={<Dashboard />} />
             <Route path="upload" element={<UploadProperty />} />
             <Route path="manage" element={<ManageProperties />} />
-            <Route path="edit/:id" element={<EditProperty />} />
             <Route path="bookings" element={<Bookings />} />
             <Route path="profile" element={<Profile />} />
             <Route path="password" element={<ChangePassword />} />

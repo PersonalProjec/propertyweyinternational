@@ -69,6 +69,22 @@ export default function Properties() {
     fetchProperties();
   }, [filter, currentPage]);
 
+  function getCurrencySymbol(currency) {
+    switch ((currency || '').toUpperCase()) {
+      case 'USD':
+        return '$';
+      case 'EUR':
+        return '€';
+      case 'GBP':
+        return '£';
+      case 'CAD':
+        return 'C$';
+      case 'NGN':
+      default:
+        return '₦';
+    }
+  }
+
   const totalPages = Math.ceil(total / propertiesPerPage);
 
   const particlesInit = useCallback(async (engine) => {
@@ -134,9 +150,12 @@ export default function Properties() {
                 <p className="text-gray-300 text-sm">{prop.location}</p>
                 <p className="text-white text-lg font-bold">
                   {typeof prop.price === 'number'
-                    ? `₦${prop.price.toLocaleString()}`
+                    ? `${getCurrencySymbol(
+                        prop.currency
+                      )}${prop.price.toLocaleString()}`
                     : prop.price}
                 </p>
+
                 <span className="text-xs mt-3 inline-block bg-gold/10 text-gold px-2 py-1 rounded-full">
                   {prop.category}
                 </span>

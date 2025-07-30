@@ -12,6 +12,7 @@ const UploadProperty = () => {
     category: 'Rent',
     tags: '',
     description: '',
+    currency: 'NGN',
   });
 
   const [files, setFiles] = useState([]);
@@ -99,7 +100,7 @@ const UploadProperty = () => {
       });
 
       const result = await res.json();
-      console.log('🔥 Frontend Upload result:', result);
+      // console.log('🔥 Frontend Upload result:', result);
       if (!res.ok) throw new Error(result.message || 'Upload failed');
 
       toast.success('Property uploaded successfully!');
@@ -116,7 +117,6 @@ const UploadProperty = () => {
       });
       setFiles([]);
     } catch (err) {
-      // Try to get a friendly message
       let msg = '';
       if (err instanceof Error) {
         msg = err.message;
@@ -148,6 +148,19 @@ const UploadProperty = () => {
             className="w-full border p-2 rounded"
           />
         ))}
+        <select
+          name="currency"
+          value={formData.currency}
+          onChange={handleChange}
+          className="w-full border p-2 rounded"
+          required
+        >
+          <option value="NGN">Naira (₦)</option>
+          <option value="USD">US Dollar ($)</option>
+          <option value="EUR">Euro (€)</option>
+          <option value="GBP">British Pound (£)</option>
+          <option value="CAD">Canadian Dollar (C$)</option>
+        </select>
 
         <select
           name="type"
@@ -253,7 +266,22 @@ const UploadProperty = () => {
           <h3 className="font-bold mb-2">Listing Preview</h3>
           <p>🏠 Title: {formData.title}</p>
           <p>📍 Location: {formData.location}</p>
-          <p>💰 Price: ${formData.price}</p>
+          <p>
+            💰 Price:{' '}
+            {formData.currency === 'NGN'
+              ? '₦'
+              : formData.currency === 'USD'
+              ? '$'
+              : formData.currency === 'EUR'
+              ? '€'
+              : formData.currency === 'GBP'
+              ? '£'
+              : formData.currency === 'CAD'
+              ? 'C$'
+              : ''}
+            {formData.price}
+          </p>
+
           <p>📐 Area: {formData.area}</p>
           <p>🏷️ Type: {formData.type}</p>
           <p>📂 Category: {formData.category}</p>

@@ -98,13 +98,13 @@ const Hero = () => {
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-4">
-            <Link to="/properties">
+            <Link to="#properties">
               <Button variant="solid" color="gold" size="lg" rounded="full">
                 Browse Properties
               </Button>
             </Link>
 
-            <Link to="/contact">
+            <Link to="#contact">
               <Button variant="outline" color="gold" size="lg" rounded="full">
                 Contact Us
               </Button>

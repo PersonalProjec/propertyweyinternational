@@ -49,6 +49,22 @@ const PropertyDetails = () => {
     fetchProperty();
   }, [id]);
 
+  function getCurrencySymbol(currency) {
+    switch ((currency || '').toUpperCase()) {
+      case 'USD':
+        return '$';
+      case 'EUR':
+        return '€';
+      case 'GBP':
+        return '£';
+      case 'CAD':
+        return 'C$';
+      case 'NGN':
+      default:
+        return '₦';
+    }
+  }
+
   const handleModalOpen = () => setShowModal(true);
   const handleModalClose = () => setShowModal(false);
 
@@ -190,7 +206,9 @@ const PropertyDetails = () => {
               </div>
               <div className="text-lg font-extrabold text-primary mb-1">
                 {typeof property.price === 'number'
-                  ? `₦${property.price.toLocaleString()}`
+                  ? `${getCurrencySymbol(
+                      property.currency
+                    )}${property.price.toLocaleString()}`
                   : property.price}
               </div>
               <p className="text-gray-700 dark:text-gray-200 text-base mb-2">
@@ -217,7 +235,7 @@ const PropertyDetails = () => {
               <div className="flex flex-wrap gap-3 mt-4 items-center">
                 <span className="text-xs text-gray-400 mr-2">Contact us:</span>
                 <a
-                  href={`https://wa.me/2348012345678?text=I'm%20interested%20in%20${encodeURIComponent(
+                  href={`https://wa.me/2349047007000?text=I'm%20interested%20in%20${encodeURIComponent(
                     property.title
                   )}`}
                   target="_blank"
@@ -228,7 +246,7 @@ const PropertyDetails = () => {
                   <FaWhatsapp size={18} />
                 </a>
                 <a
-                  href="https://instagram.com/your_instagram"
+                  href="https://instagram.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-full bg-gradient-to-tr from-fuchsia-500 via-red-500 to-yellow-400 hover:opacity-80 text-white w-9 h-9 flex items-center justify-center shadow transition"
@@ -237,7 +255,7 @@ const PropertyDetails = () => {
                   <FaInstagram size={18} />
                 </a>
                 <a
-                  href="https://facebook.com/your_facebook"
+                  href="https://facebook.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-full bg-blue-600 hover:bg-blue-700 text-white w-9 h-9 flex items-center justify-center shadow transition"
@@ -246,7 +264,7 @@ const PropertyDetails = () => {
                   <FaFacebook size={18} />
                 </a>
                 <a
-                  href="https://www.tiktok.com/@your_tiktok"
+                  href="https://www.tiktok.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-full bg-black hover:bg-gray-900 text-white w-9 h-9 flex items-center justify-center shadow transition"
@@ -255,7 +273,7 @@ const PropertyDetails = () => {
                   <FaTiktok size={18} />
                 </a>
                 <a
-                  href="https://x.com/your_x"
+                  href="https://x.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-full bg-gray-900 hover:bg-gray-700 text-white w-9 h-9 flex items-center justify-center shadow transition"
@@ -297,7 +315,9 @@ const PropertyDetails = () => {
               <div>
                 <b>Amount:</b>{' '}
                 {typeof property.price === 'number'
-                  ? `₦${property.price.toLocaleString()}`
+                  ? `${getCurrencySymbol(
+                      property.currency
+                    )}${property.price.toLocaleString()}`
                   : property.price}
               </div>
             </div>
